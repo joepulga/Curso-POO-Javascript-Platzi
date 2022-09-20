@@ -1,42 +1,31 @@
-class classes {
-    constructor({
-        name = [],
-        instructor,
-    }){
-        this.name = name;
-        this.instructor = instructor;
-    }
-}
-
-const introducciónProgBasica = new classes({
-    name: "¿Introducción a la programación Basica"
-})
-const introducciónHTML = new classes({
-    name: "Introducción a HTML"
-})
 
 class Course {
     constructor({
         name,
         classes = [],
+        isFree = false,
+        lang = "spanish",
     }) {
         this.name = name;
         this.classes = classes;
+        this.isFree = isFree;
+        this.lang = lang;
     }
 }
 
 const cursoProgBasica = new Course({
     name: "Curso Gratis de Programación Básica",
-    classes : introducciónProgBasica,
+    isFree: true,
 });
 const cursoDefinitivoHTML = new Course({
     name: "Curso Definitivo de HTML y CSS",
-    classes: introducciónHTML,
 });
+
 const cursoPracticoHTML = new Course({
     name: "Curso Practico de HTML y CSS",
-    classes: introducciónHTML,
+    lang: "english",
 });
+
 class LearningPath {
     constructor({
         name,
@@ -67,6 +56,7 @@ const escuelaDataScience = new LearningPath({
     ],
 })
 
+// Clase Padre
 class Student {
     constructor ({
         name,
@@ -92,7 +82,47 @@ class Student {
     }
 }
 
-const juan2 = new Student({
+class FreeStudent extends Student {
+    constructor(props) {
+        super(props);
+    }
+
+    approveCourse(newCourse) {
+        if (newCourse.isFree ){
+            this.approvedCourses.push(newCourse)
+        }else {
+            console.warn("Lo sentimos" + this.name + "Solo puedes tomar cursos abiertos");
+        }
+    }
+    
+}
+
+class BasicStudent extends Student {
+    constructor(props) {
+        super(props);
+    }
+
+    approveCourse(newCourse) {
+        if (newCourse.lang !== "english" ){
+            this.approvedCourses.push(newCourse)
+        }else {
+            console.warn("Lo sentimos" + this.name + "Solo puedes tomar cursos en inglés");
+        }
+    }
+}
+
+class ExperStudent extends Student {
+    constructor(props) {
+        super(props);
+    }
+
+    approveCourse(newCourse) {
+        this.approvedCourses.push(newCourse)      
+    }
+}
+
+
+const juan = new FreeStudent({
     name: "Joe",
     username: "joepulga",
     email: "pulgarinjoe@gmail.com",
@@ -102,7 +132,7 @@ const juan2 = new Student({
     ],
 })
 
-const miguelito2 = new Student({
+const miguelito = new BasicStudent({
     name: "Miguelito",
     username: "MiguelitoFeliz",
     email: "miguelito@miguel.com",
@@ -111,4 +141,3 @@ const miguelito2 = new Student({
         escuelaDataScience
     ],
 })
-
